@@ -18,21 +18,25 @@ services:
             - MONGO_LOG_DIR=/dev/null
         volumes:
             - ../../data/db:/data/db
-    
-    master:
-        image: 'christianbladescb/locustio'
-        container_name: 'master'
-        restart: always
-        command: " -f locustfile.py --host=http://movies-api:3000 --master"
-        ports:
-        - "8089:8089"
-        volumes:
-        - ../../source/locust/benchmarks:/locust
 
-    slave:
-        image: 'christianbladescb/locustio'
-        container_name: 'slave'
-        restart: 'always'
-        command: " -f locustfile.py --host=http://movies-api:3000 --slave --master-host=master"
+    master:
+        image: locustio/locust
+        working_dir: /locust
+        ports:
+            - "8089:8089"
+        volumes:
+            - ../../source/locust/benchmarks:/locust
+        command: -f /locust/locustfile.py --master -H http://master:8089
+  
+    worker:
+        image: locustio/locust
         volumes:
         - ../../source/locust/benchmarks:/locust
+        command: -f /locust/locustfile.py --worker --master-host master
+
+
+    worker2:
+        image: locustio/locust
+        volumes:
+        - ../../source/locust/benchmarks:/locust
+        command: -f /locust/locustfile.py --worker --master-host master        
