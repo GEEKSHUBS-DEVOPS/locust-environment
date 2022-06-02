@@ -3,7 +3,7 @@ services:
 
     movies-api:
         image: 'geekshubsdevops/movies-api:latest'
-        container_name: 'movies-api'
+        container_name: 'c-movies-api'
         ports:
             - "3000:3000"
         environment: 
@@ -32,7 +32,7 @@ services:
         image: locustio/locust
         volumes:
         - ../../source/locust/benchmarks:/locust
-        command: -f /locust/locustfile.py --worker --master-host master
+        command: -f /locust/locustfile.py --worker --master-host master --master-port 80
 
 
     worker2:
@@ -40,3 +40,5 @@ services:
         volumes:
         - ../../source/locust/benchmarks:/locust
         command: -f /locust/locustfile.py --worker --master-host master        
+
+    
