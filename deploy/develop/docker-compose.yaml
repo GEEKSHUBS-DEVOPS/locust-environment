@@ -1,23 +1,23 @@
 version: "3"
 services:
 
-    movies-api:
-        image: 'geekshubsdevops/movies-api:latest'
-        container_name: 'c-movies-api'
-        ports:
-            - "3000:3000"
-        environment: 
-            MONGO_URL: 'mongo'
-            MONGO_DATABASE: 'movies'
+    # movies-api:
+    #     image: 'geekshubsdevops/movies-api:latest'
+    #     container_name: 'c-movies-api'
+    #     ports:
+    #         - "3000:3000"
+    #     environment: 
+    #         MONGO_URL: 'mongo'
+    #         MONGO_DATABASE: 'movies'
 
-    mongo:
-        container_name: mongo
-        image: mongo:latest
-        environment:
-            - MONGO_DATA_DIR=/data/db
-            - MONGO_LOG_DIR=/dev/null
-        volumes:
-            - ../../data/db:/data/db
+    # mongo:
+    #     container_name: mongo
+    #     image: mongo:latest
+    #     environment:
+    #         - MONGO_DATA_DIR=/data/db
+    #         - MONGO_LOG_DIR=/dev/null
+    #     volumes:
+    #         - ../../data/db:/data/db
 
     master:
         image: locustio/locust
@@ -35,10 +35,10 @@ services:
         command: -f /locust/locustfile.py --worker --master-host master --master-port 80
 
 
-    worker2:
-        image: locustio/locust
-        volumes:
-        - ../../source/locust/benchmarks:/locust
-        command: -f /locust/locustfile.py --worker --master-host master        
+    # worker2:
+    #     image: locustio/locust
+    #     volumes:
+    #     - ../../source/locust/benchmarks:/locust
+    #     command: -f /locust/locustfile.py --worker --master-host master        
 
     
